@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports={
 
-	mode:'development',
+	mode:'production',
 	entry: {
 		index: [
 			path.resolve(__dirname,'./src/js/index.js'),
@@ -12,7 +12,7 @@ module.exports={
 		
 	},
 	output:{
-		path: path.resolve(__dirname + '/dist/js'),
+		path: path.resolve(__dirname+'/dist/js'),
 		filename: '[name]-[hash].js'
 	},
 	module:{
@@ -20,7 +20,7 @@ module.exports={
 			{
 				test: /\.js$/,
 				loader:'babel-loader',
-				exclude: path.resolve(__dirname, 'node_modules'),
+				exclude: path.resolve(__dirname, 'node_modules')
 			},
 			{
 				test: /\.css$/,
