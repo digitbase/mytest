@@ -1,3 +1,9 @@
+
 console.log('this is js 22');
-require("../css/main.css")
-require("../css/index.scss")
+import $ from 'jquery'
+console.log('this jquery')
+import "../css/main.css";
+import "../css/index.scss";
+import '../users.html';
+
+
