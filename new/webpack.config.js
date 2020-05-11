@@ -1,11 +1,15 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
 const extractSCSS = new ExtractTextPlugin('stylesheets/[name]-two.css');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const AddAssetHtmlCdnWebpackPlugin = require('add-asset-html-cdn-webpack-plugin');
 
 module.exports={
+
 	mode: 'development',
 	entry: {
 		index: [
@@ -47,7 +51,8 @@ module.exports={
 			},
 			{
 			    test: /\.(htm|html)$/i,
-			     use:[ 'html-loader'] 
+			     use:[ 'html-loader'],
+				  
 			},
 			{
 				test: /\.(jpg|png)$/,
@@ -66,19 +71,21 @@ module.exports={
 		]
 	},
 	plugins : [
+
+		new webpack.ProvidePlugin({
+           $: 'jquery',
+           jQuery: 'jquery'
+        }),
 		extractCSS,
 	  	extractSCSS,
-	  	new CleanWebpackPlugin({
-	  	    cleanAfterEveryBuildPatterns: ['build']
-	  	}),
+	  	// new CleanWebpackPlugin({
+	  	//     cleanAfterEveryBuildPatterns: ['build']
+	  	// }),
 		new HtmlWebpackPlugin({
 			filemane: 'index.html',
-			template: path.resolve(__dirname,'./src/index.html'),
-			chunks:[
-				'index'
-			],
-			excludeChunks:['node_modules']
+			template: './src/index.html',
 		}),
+
 
 	],
 	devServer:{
