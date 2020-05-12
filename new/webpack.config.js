@@ -70,17 +70,15 @@ module.exports={
 
 		]
 	},
+ 
 	plugins : [
-
-		new webpack.ProvidePlugin({
-           $: 'jquery',
-           jQuery: 'jquery'
-        }),
 		extractCSS,
 	  	extractSCSS,
-	  	// new CleanWebpackPlugin({
-	  	//     cleanAfterEveryBuildPatterns: ['build']
-	  	// }),
+	  	new webpack.ProvidePlugin({
+	  	  $$:"jquery",
+	  	  jQuery:"jquery",
+	  	  "window.jQuery":"jquery"
+	  	}),
 		new HtmlWebpackPlugin({
 			filemane: 'index.html',
 			template: './src/index.html',
@@ -92,5 +90,6 @@ module.exports={
 		open: true,
 		host: 'localhost',
 		port: 8080
-	}
+	},
+
 }
