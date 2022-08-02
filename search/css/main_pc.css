@@ -1,0 +1,215 @@
+.page-header {
+    margin: 0 0 12px;
+    border-bottom: 1px dotted #e2e2e2;
+    padding-bottom: 10px;
+    padding-top: 7px
+}
+
+.btn.btn-app.btn-sm{
+	width:32%;
+	height:100px;
+	padding-top:30px;
+}
+
+
+
+.wizard-actions .btn-prev{
+	margin-right: 40px;
+}
+
+.clr{
+	clear:both;
+}
+
+.product_40{
+	width: 40px;
+	height: 40px;
+}
+
+.product_80{
+    width: 80px;
+    height: 80px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+	vertical-align: middle;
+}
+
+.form-horizontal .control-label.left {
+	text-align: left;
+}
+
+.pagination{
+	margin:0px;
+}
+
+.help-button{
+
+}
+
+.cstlogo_s{
+	width: 60px;
+	height: 60px;
+}
+
+.artcss .ui-dialog-title{
+	    text-align: left;
+	    height: 40px;
+}
+
+.payment-list .list-cont .payment-item {
+    float: left;
+    position: relative;
+    border: 1px solid #ddd;
+    cursor: pointer;
+
+    margin:12px;
+}
+.payment-list .list-cont li {
+    float: left;
+    padding:5px;
+    list-style: none;
+    _display: inline;
+    cursor: pointer;
+    height: 83px;
+
+}
+.payment-list .list-cont .payment-item:hover {
+    border: 2px solid #e4393c;
+    margin:11px;
+}
+.payment-list .list-cont .payment-item.item-selected {
+    border: 2px solid #e4393c;
+    margin:11px;
+
+}
+.payment-list .list-cont .payment-item.item-selected b {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+    background: url(//misc.360buyimg.com/user/purchase/2.0.0/css/i/selected-icon.png) no-repeat;
+}
+.lab-name{
+    color: #2679b5;
+}
+.lab-name,.lab-info{
+    line-height: 2.5;
+    font-size: 16px;
+}
+.profile-info-value{
+    border: none;
+}
+.navbar:not(.navbar-collapse) .ace-nav>li:first-child{
+    color: #fff;
+    border: none;
+}
+
+.table.table-bordered>thead>tr>th{
+    border-bottom:none;
+}
+
+.cus_logo{
+    width: 40px;
+    height: 35px;
+    display: block;
+    background-size: contain;
+}
+
+.profile-activity img{
+    border:1px solid #C9D6E5;
+    border-radius:0;
+    width: 50px;
+    height: 50px;
+}
+
+.btn-inverse.selected {
+    background-color: #d5d5d5!important;
+}
+
+.form-horizontal .radio{
+    padding-top:4px;
+}
+.checkbox label, .radio label{
+    padding-left:0px;
+    padding-right:20px;
+}
+
+.form-group.has-error .control-label{
+    color:#393939;
+}
+
+.form-group.has-error input, .form-group.has-error select, .form-group.has-error textarea{
+    border: 1px solid #d5d5d5;
+    color: #858585;
+}
+.page-header{
+    display: none;
+}
+.form-group{
+    margin-bottom:10px;
+}
+.day_select{
+    margin-left:35px;
+}
+.pc_search .row{
+    margin-top: 10px;
+}
+.breadcrumbs{
+    margin-bottom: 10px;
+}
+.must_input{
+    color: red;
+}
+.num_input{
+    text-align: right;
+        width: 40px;
+}
+.num_input_m{
+    text-align: right;
+        width: 70px;
+}
+
+
+.code_div{
+padding:10px 13px;
+}
+.log_title{
+    line-height: 30px;
+    height: 30px;
+}
+.log_title div{
+float: left;
+margin-bottom: 5px;
+}
+
+.log_title .l_div{
+    float: left;
+}
+
+.log_title .r_div{
+ float: right;   
+}
+
+.log_title .code{
+float: left;
+width:40%;
+}
+
+.print_tail .print_sign div{
+float: left;
+width: 33%;
+}
+.print_show{
+    display: none;
+}
+div.in_tbl{
+    border: 2px solid green;
+}
+
+div.out_tbl{
+    border: 2px solid red;
+}

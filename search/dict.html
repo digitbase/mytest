@@ -1,0 +1,63 @@
+<html>
+<head>
+<link   type="text/css" href="./src/base.css" rel="stylesheet" />
+<script src="./src/jquery-2.1.0.min.js"></script>
+<script src="./src/base3.js"></script>
+<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+<title>test</title>
+</head>
+<body>
+<style>
+.out_radio{
+    display: inline-block;
+    padding-right:30px;
+}
+.myowrdlist{
+    cursor: pointer;
+}
+</style>
+<audio  id="dictVoice" autoplay="autoplay" ></audio>
+
+<div class="out_input">
+
+    <div class="my_title"></div>
+    <div class="in_input">
+    <div style="width:400px;float:left;">
+        <input type="text" id="my_search_bar" value="" class="ui-autocomplete-input" />
+    </div>
+
+    <div id="btn_search" style="float:left;padding-left:10px;">
+        <a class="button" onclick="" href="#">
+        <i class="search_icon_symbol">
+            <img src="./src/search-white.png" style="height:20px;width:20px;">
+        </i>
+        </a>
+
+    </div>
+    <div style="clear: both;"></div>
+    <div>
+    <audio  id="dictVoice" autoplay="autoplay" ></audio>
+
+    <span class="out_radio"><input type='radio' name="ex"  value="0"  > null</span>
+    <span class="out_radio"><input type='radio' name="ex"  value="1" > start</span>
+    <span class="out_radio"><input type='radio' name="ex"  value="2" > end</span>
+    <span class="out_radio"><input type='radio' name="ex"  value="3" checked> all</span>
+    <span class="out_radio"><input type='radio' name="ex"  value="4" > mena</span>
+
+    </div>
+    </div>
+</div>
+<div style="clear:both;"></div>
+    <div ><h2 class="tword"></h2></div>
+<div class="kubox" style="display:none;">
+
+</div>
+<div id="list_div"><ul id="word_list"></ul></div>
+<div id="res_div">
+</div>
+    <div style="text-align: center;margin:20px 50px 20px 0">
+        
+    </div>
+
+</body>
+</html>
