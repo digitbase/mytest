@@ -1,0 +1,306 @@
+
+###
+@host = localhost:3002
+
+
+#人员通行
+# PersonPass
+# queryPersonPermissionGrantInfo
+POST http://{{host}}/service/SmartCampus__PersonPass/1.0.0/queryPersonPermissionGrantInfo
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "start": 1,
+    "limit": 10,
+    "condition": {
+       
+    }
+}
+
+
+
+###
+#得到所有人员权限
+# PersonPass
+POST http://{{host}}/service/SmartCampus__PersonPass/1.0.0/queryPersonPermissionInfo
+
+{
+    "start": 0,
+    "limit": 10,
+    "condition": {
+       
+    }
+}
+
+###
+#得到所有人员权限
+
+POST http://114.242.26.87:8049/service/SmartCampus__PersonPass/1.0.0/queryPersonPermissionInfo?noCache=1659757765646
+
+{
+  "limit": 10,
+  "start": 0,
+  "condition": {
+    "permissionName": {
+      "value": "new2",
+      "operator": "like"
+    }
+  }
+}
+
+
+###
+#车辆通行
+# PersonPass
+# queryPersonPermissionGrantInfo
+POST http://{{host}}/service/SmartCampus__VehiclePass/1.0.0/queryVehiclePermissionInfo2
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{     
+    "start": 0,
+    "limit": 10,
+    "condition": {
+        "permissionName": {
+        "value": "new2",
+        "operator": "like"
+        }
+    }
+}
+
+
+###
+#车辆通行
+# PersonPass
+# queryPersonPermissionGrantInfo
+POST http://{{host}}/service/SmartCampus__VehiclePass/1.0.0/queryVehiclePermissionInfo
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{     
+    "start": 0,
+    "limit": 10,
+    "condition": {
+        "permissionName": {
+        "value": "new2",
+        "operator": "like"
+        }
+    }
+}
+
+###
+# 001
+#得到所有车辆权限  
+# PersonPass
+# ok
+POST http://{{host}}/service/SmartCampus__VehiclePass/1.0.0/queryVehiclePermissionInfo
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "start": 0,
+    "limit": 10,
+    "condition": {
+        "permissionName": {
+        "value": "new",
+        "operator": "like"
+        }
+    }
+}
+
+###
+# 003
+#new
+#编辑车辆权限组
+# PersonPass
+
+POST http://{{host}}/service/SmartCampus__VehiclePass/1.0.0/updateVehiclePermission
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "id": "1f31GJKNHRBZPTpDF28X",
+    "description": "eee",
+    "permissionName": "eeee",
+    "permissionResource": [
+            "resourceId": "D3c2x7Kmc2bYcj4f3zt9",
+            "resourceType": "Access",
+            "action": "ADD"
+    ]
+}
+
+# {
+#     "id": "1f31GJKNHRBZPTpDF28X",
+#     "description": "eee",
+#     "permissionName": "eeee",
+#     "permissionResource": [
+#         {
+#             "resourceId": "D3c2x7Kmc2bYcj4f3zt9",
+#             "resourceType": "Access",
+#             "action": "ADD"
+#         }
+#     ]
+# }
+
+
+
+###
+#得到所有人员权限信息
+# PersonPass
+POST http://{{host}}/service/SmartCampus__PersonPass/1.0.0/queryGuardAccess
+
+{
+    "limit": 10,
+    "start": 0,
+    "condition": {
+        "guardAccessName": null
+    }
+}
+
+
+
+###
+# 002
+#得到所有车辆权限信息
+# VehiclePas
+# 跑通
+# ???数据是人员的可能
+POST http://{{host}}/service/SmartCampus__VehiclePass/1.0.0/queryVehicleGuardAccess
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "limit": 10,
+    "start": 0,
+    "condition": {
+        "guardAccessName": null
+    }
+}
+
+
+###
+#新建人员权限组
+# PersonPass
+POST http://{{host}}/service/SmartCampus__PersonPass/1.0.0/addPersonPermission
+Content-Type: application/json
+Cache-Control: no-Cache
+
+
+{
+    "description": "fff",
+    "isPublic": false,
+    "permissionName": "new2",
+    "permissionResource": [
+        {
+            "resourceId": "M1Bf6ZEBz5hWMDHFkdGc",
+            "resourceType": "Access"
+        },
+        {
+            "resourceId": "Qdsi95mmnnBJwNPxdP5Q",
+            "resourceType": "Access"
+        },
+        {
+            "resourceId": "rY95p1aj3sf7WHE6YJMr",
+            "resourceType": "Access"
+        }
+    ]
+}
+
+
+@delid=c1YyzEm7PK73sddSeKRx
+###
+# 004
+# 删除人员权限组
+# PersonPass
+DELETE http://{{host}}/service/Person/0.1.0/PersonPermission?id={{delid}}
+Content-Type: application/json
+Cache-Control: no-Cache
+
+###
+# 测试 HC-BO
+# 查询人员权限
+# 
+POST http://localhost:3004/service/Person/0.1.0/PersonPermission/query
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "limit": 10,
+    "start": 0,
+    "condition": {
+    }
+}
+
+###
+# 测试 HC-BO
+# 查询车辆权限
+# 
+POST http://localhost:3004/service/Vehicle/0.1.0/VehiclePermission/query
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "limit": 10,
+    "start": 0,
+    "condition": {
+    }
+}
+
+
+
+###
+#new
+#新建车辆权限组
+# PersonPass
+POST http://{{host}}/service/SmartCampus__VehiclePass/1.0.0/addVehiclePermission
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "description": "fff",
+    "isPublic": false,
+    "permissionName": "new2",
+    "permissionResource": [
+        {
+            "resourceId": "M1Bf6ZEBz5hWMDHFkdGc",
+            "resourceType": "Access"
+        },
+        {
+            "resourceId": "Qdsi95mmnnBJwNPxdP5Q",
+            "resourceType": "Access"
+        },
+        {
+            "resourceId": "rY95p1aj3sf7WHE6YJMr",
+            "resourceType": "Access"
+        }
+    ]
+}
+
+
+
+###
+#old
+#编辑人员权限组
+# PersonPass
+
+POST http://{{host}}/service/SmartCampus__PersonPass/1.0.0/updatePersonPermission
+Content-Type: application/json
+Cache-Control: no-Cache
+
+{
+    "id": "hQXHKecMPdR1nzhhKYQi",
+    "description": "eee",
+    "permissionName": "eeee",
+    "permissionResource": [
+        {
+            "resourceId": "D3c2x7Kmc2bYcj4f3zt9",
+            "resourceType": "Access",
+            "action": "ADD"
+        }
+    ]
+}
+
+
+
+
