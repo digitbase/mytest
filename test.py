@@ -1,43 +1,65 @@
+import os
 import sys
 from modbus_tk import modbus_tcp
 import telnetlib
-import byte_swap
+import mysql.connector
+import config
 
+
+st=['~','#','@','#','$','%','^','&','*','_','-','+','\\']
+def prm(a,p=0):
+    prf(a, 'a')
+    
+    print(type(a),end='\n\n')
+    
+    if type(a) == list:
+        for row in a:
+            print(row,'\n')
+    else :
+        print('  =>> ',(a))
+    if p>0:
+        s=st[p-1]*20
+        print(s)
+
+
+def prd(a,p=0):
+    prf(a, 'w')
+    prm(a,p)
+    print('======= prd end =========')
+    os._exit(0)
+    
+
+def prf(a, type='w') :
+    fileName='res.html'
+    if type == 'w':
+        with open(fileName,'w') as file:
+                file.write(str(a))
+    else :
+        with open(fileName,'a') as file:
+            file.write(str(a))
 
 def main():
-    if len(sys.argv) > 1:
-        host = sys.argv[1]
-    else:
-        host = "192.168.40.21"
-
-    port = 502
+    cursor = None
+    cnx = None
     try:
-        telnetlib.Telnet(host, port, 10)
-        print("Succeeded to telnet %s:%s ", host, port)
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT version "
+                 " FROM tbl_versions  "
+                 " WHERE id = 1 ")
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row is not None and len(row) > 0:
+            print("The database version is : ", str(row[0]))
     except Exception as e:
-        print("Failed to telnet %s:%s : %s  ", host, port, str(e))
-        return
+        print("There is something wrong with database :", str(e))
+    finally:
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.close()
 
-    try:
-        master = modbus_tcp.TcpMaster(host=host, port=port, timeout_in_sec=15.0)
-        master.set_timeout(15.0)
-        print("Connected to %s:%s ", host, port)
-        print("read registers...")
-        result = master.execute(slave=1, function_code=3, starting_address=0, quantity_of_x=2, data_format='<l')
-        print("51AL1-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6403, quantity_of_x=2, data_format='<l')
-        print("51AL2-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6405, quantity_of_x=2, data_format='<l')
-        print("51AL3-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6407, quantity_of_x=2, data_format='<l')
-        print("51AL4-1-KWHimp  = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6409, quantity_of_x=2, data_format='<l')
-        print("51AL5-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-
-
-        master.close()
-    except Exception as e:
-        print(str(e))
 
 
 if __name__ == "__main__":

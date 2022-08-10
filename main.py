@@ -7,19 +7,23 @@ import logging
 from logging.handlers import RotatingFileHandler
 import gateway
 import acquisition
+from test import prd
+
+
+
 
 
 def main():
     """main"""
     # create logger
-    logger = logging.getLogger('myems-modbus-tcp')
+    logger = logging.getLogger('myems-fz')
     # specifies the lowest-severity log message a logger will handle,
     # where debug is the lowest built-in severity level and critical is the highest built-in severity.
     # For example, if the severity level is INFO, the logger will handle only INFO, WARNING, ERROR, and CRITICAL
     # messages and will ignore DEBUG messages.
     logger.setLevel(logging.INFO)
     # create file handler which logs messages
-    fh = RotatingFileHandler('myems-modbus-rtu.log', maxBytes=1024*1024, backupCount=1)
+    fh = RotatingFileHandler('myems-fz.log', maxBytes=1024*1024, backupCount=1)
     # create formatter and add it to the handlers
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
@@ -56,16 +60,13 @@ def main():
         try:
             query = (" SELECT ds.id, ds.name, ds.connection "
                      " FROM tbl_data_sources ds, tbl_gateways g "
-                     " WHERE ds.protocol = 'modbus-rtu' AND ds.gateway_id = g.id AND g.id = %s AND g.token = %s "
+                     " WHERE  ds.gateway_id = g.id AND g.id = 1 "
                      " ORDER BY ds.id ")
-            print(config.myems_system_db);
-            print(query);
   
-            cursor_system_db.execute(query, (config.gateway['id'], config.gateway['token'],))
+            cursor_system_db.execute(query)
             rows_data_source = cursor_system_db.fetchall()
         except Exception as e:
             logger.error("Error in main process " + str(e))
-            # sleep several minutes and continue the outer loop to reload points
             time.sleep(6)
             continue
         finally:
@@ -73,7 +74,6 @@ def main():
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-
         if rows_data_source is None or len(rows_data_source) == 0:
             logger.error("Data Source Not Found, Wait for minutes to retry.")
             # wait for a while and retry
@@ -82,9 +82,6 @@ def main():
         else:
             # Stop to connect these data sources
             break
-
-    print("------------------");
-
 
     for row_data_source in rows_data_source:
         print("Data Source: ID=%s, Name=%s, Connection=%s " %
@@ -96,7 +93,7 @@ def main():
 
         try:
 
-            print("--------22222--------");
+            
             server = json.loads(row_data_source[2])
             print(server);
         except Exception as e:
@@ -110,7 +107,7 @@ def main():
                 or len(server['host']) == 0 \
                 or not isinstance(server['port'], int) \
                 or server['port'] < 1:
-            print("--------33333    --------");
+            
             logger.error("Data Source Connection Invalid.")
             continue
 
