@@ -21,7 +21,7 @@ from test import prd,prm
 ########################################################################################################################
 
 
-def process(logger, data_source_id, host, port):
+def acquisitionwater(logger, data_source_id, host, port):
     
     print(logger)
     logger.info('======== Acquisition start=======')
