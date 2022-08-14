@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Module ,OnModuleInit} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatController } from './cat.controller';
 import { CatService } from './cat.service';
-
+import { VehicleAppModule } from './vehicle_app/vehicle_app.module';
 @Module({
-  imports: [],
+  imports: [
+    VehicleAppModule
+  ],
   controllers: [
     CatController,
     AppController,
@@ -17,4 +19,9 @@ import { CatService } from './cat.service';
 
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  async onModuleInit() {
+    console.log("aaaaaaaaa");
+  }
+  
+}
