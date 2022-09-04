@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "lib": ["es2020"],
+        "module": "es2022",
+        "target": "es2022",
+        "types": ["node"],
+        "outDir": "dist"
+    },
+    "exclude": ["node_modules"],
+    "ts-node": {
+        "compilerOptions": {
+          "module": "es2022"
+        }
+      },
+}
