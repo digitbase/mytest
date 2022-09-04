@@ -1,0 +1,15 @@
+{
+  "name": "orm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db": "rm -rf mydb & npx typeorm-model-generator -h localhost -d mybook -p 3306 -u root -x 111111 -e mysql -o mydb --noConfig true --ce pascal --cp camel"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mysql": "^2.15.21"
+  }
+}
