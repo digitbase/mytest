@@ -1,9 +1,40 @@
-
-
-let a1 = getFormatTime(1);
+var myDate = new Date();
+let t = myDate.getTime()- 24 * 60*10000000;
+let a1 = getFormatTime(t);
 
 
 console.log(a1)
+
+        
+let a2 = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+let a4 = myDate.getMonth(); //获取当前月份(0-11,0代表1月)
+let a5 = myDate.getDate(); //获取当前日(1-31)
+let a6 = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+let a7 = myDate.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
+let a8 = myDate.getHours(); //获取当前小时数(0-23)
+let a9 = myDate.getMinutes(); //获取当前分钟数(0-59)
+let a0 = myDate.getSeconds(); //获取当前秒数(0-59)
+let a11 = myDate.getMilliseconds(); //获取当前毫秒数(0-999)
+let a12 = myDate.toLocaleDateString(); //获取当前日期
+
+let a13 = myDate.toLocaleTimeString(); //获取当前时间
+let a14 = myDate.toLocaleString(); //获取日期与时间
+
+
+
+console.log("a2: " ,a2)
+console.log("a4: " ,a4)
+console.log("a5: " ,a5)
+console.log("a6: " ,a6)
+console.log("a7: " ,a7)
+console.log("a8: " ,a8)
+console.log("a9: " ,a9)
+console.log("a0: " ,a0)
+console.log("a11: " ,a11)
+console.log("a12: " ,a12)
+console.log("myDate: " ,myDate)
+console.log("a13: " ,a13)
+console.log("a14: " ,a14)
 
 
 function getFormatTime(t: number) {
@@ -93,6 +124,6 @@ function getFormatTime(t: number) {
                 }
             }
         }
-        // console.log('resultDateTimeStr', resultDateTimeStr);
+        console.log('resultDateTimeStr', resultDateTimeStr);
         return resultDateTimeStr;
     }
