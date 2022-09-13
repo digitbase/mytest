@@ -9,7 +9,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 Vue.config.productionTip = false
-
+debugger;
 
 new Vue({
   el: '#app',
