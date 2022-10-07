@@ -44,36 +44,37 @@ export default {
 	created() {
 		let that = this;
 		console.log("this is object");
+		console.log(this.$appName);
 		let data = {
 			start: 0,
 			limit: 10,
 			condition: {},
 		};
-		axios
-			.get(
-				"http://192.168.31.186:3004/service/Inspection/0.1.0/InspectionCheckGroup/GetTree",
-				data,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*",
-						"Access-Control-Allow-Credentials": "true",
-					},
-				}
-			)
-			.then((res) => {
-				console.log(res.resCode);
-				if (res.status == 200) {
-					let data = res.data;
-					that.items = data.result[0].InspectionCheckGroup;
-					for (let i of data.result[0].InspectionCheckGroup) {
-						console.log(i);
-					}
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		// axios
+		// 	.get(
+		// 		"http://192.168.31.186:3004/service/Inspection/0.1.0/InspectionCheckGroup/GetTree",
+		// 		data,
+		// 		{
+		// 			headers: {
+		// 				"Content-Type": "application/json",
+		// 				"Access-Control-Allow-Origin": "*",
+		// 				"Access-Control-Allow-Credentials": "true",
+		// 			},
+		// 		}
+		// 	)
+		// 	.then((res) => {
+		// 		console.log(res.resCode);
+		// 		if (res.status == 200) {
+		// 			let data = res.data;
+		// 			that.items = data.result[0].InspectionCheckGroup;
+		// 			for (let i of data.result[0].InspectionCheckGroup) {
+		// 				console.log(i);
+		// 			}
+		// 		}
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
 
 		if (this.items.length < 1) {
 			this.items = [

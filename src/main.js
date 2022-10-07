@@ -2,16 +2,27 @@ import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
-
 import router from './router'
 import Router from 'vue-router'
-Vue.use(Router)
+import Vuex from 'vuex'
+import store from "@/vuex/store";
+
+
+Vue.use(ElementUI);
+
+
+
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
-debugger;
+// debugger;
+
+Vue.prototype.$appName = 'My App'
+// Vue.prototype._ = _;
+
 
 new Vue({
+  router,
   el: '#app',
   data: {
     currentRoute: window.location.pathname
@@ -21,3 +32,4 @@ new Vue({
   },
   render: h => h(App),
 })
+
