@@ -1,7 +1,6 @@
 <template>
 	<div id="app">
-    App gen
-    <router-view></router-view>
+  test
   </div>
 </template>
 
@@ -17,7 +16,6 @@ export default {
 	methods: {},
 	computed: {},
 	watch: {},
-
 };
 </script>
 
