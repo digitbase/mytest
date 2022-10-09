@@ -5,14 +5,25 @@
 				<img src="../assets/logo.png" alt="placehold" />
 			</div>
 			<div>
-				<el-form class="login_form" label-width="0px" :model="loginForm">
-					<el-form-item prop="name">
-						<el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
+				<el-form
+					class="login_form"
+					label-width="0px"
+					:model="loginForm"
+					:rules="formRules"
+				>
+					<el-form-item prop="username">
+						<el-input
+							prefix-icon="iconfont icon-user"
+							v-model="loginForm.username"
+						></el-input>
 					</el-form-item>
 
 					<el-form-item prop="password">
 						<el-input
-							prefix-icon="iconfont icon-password" v-model="loginForm.password" type="password"></el-input>
+							prefix-icon="iconfont icon-password"
+							v-model="loginForm.password"
+							type="password"
+						></el-input>
 					</el-form-item>
 
 					<el-form-item prop="button" class="btns">
@@ -27,14 +38,25 @@
 
 <script>
 export default {
-  data() {
-    return {
-      loginForm:{
-        username: "222",
-        password: "333",
-      }
-    }
-  },
+	data() {
+		return {
+			loginForm: {
+				username: "222",
+				password: "333",
+			},
+			formRules: {
+				username: [
+					{ required: true, message: "请输入活动名称", trigger: "blur" },
+					{ min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+				],
+				password: [
+					{ required: true, message: "请选择活动区域", trigger: "change" },
+          { required: true, message: '请填写活动形式', trigger: 'blur' },
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+				],
+			},
+		};
+	},
 };
 </script>
 
