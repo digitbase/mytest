@@ -6,6 +6,7 @@
 			</div>
 			<div>
 				<el-form
+          ref="loginFormRef"
 					class="login_form"
 					label-width="0px"
 					:model="loginForm"
@@ -28,7 +29,7 @@
 
 					<el-form-item prop="button" class="btns">
 						<el-button type="primary">登录</el-button>
-						<el-button type="info">重置</el-button>
+						<el-button type="info" @click="resetLoginForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -41,8 +42,8 @@ export default {
 	data() {
 		return {
 			loginForm: {
-				username: "222",
-				password: "333",
+				username: "",
+				password: "",
 			},
 			formRules: {
 				username: [
@@ -51,12 +52,16 @@ export default {
 				],
 				password: [
 					{ required: true, message: "请选择活动区域", trigger: "change" },
-          { required: true, message: '请填写活动形式', trigger: 'blur' },
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+
 				],
 			},
 		};
 	},
+  methods: {
+    resetLoginForm (){
+      this.$refs.loginFormRef.resetFields()
+    }
+  },
 };
 </script>
 
