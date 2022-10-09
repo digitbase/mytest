@@ -5,14 +5,14 @@
 				<img src="../assets/logo.png" alt="placehold" />
 			</div>
 			<div>
-				<el-form class="login_form" label-width="0px">
+				<el-form class="login_form" label-width="0px" :model="loginForm">
 					<el-form-item prop="name">
-						<el-input prefix-icon="iconfont icon-user"></el-input>
+						<el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
 					</el-form-item>
 
 					<el-form-item prop="password">
 						<el-input
-							prefix-icon="iconfont icon-password"></el-input>
+							prefix-icon="iconfont icon-password" v-model="loginForm.password" type="password"></el-input>
 					</el-form-item>
 
 					<el-form-item prop="button" class="btns">
@@ -26,7 +26,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      loginForm:{
+        username: "222",
+        password: "333",
+      }
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>
