@@ -4,7 +4,22 @@
 			<div class="avatar_box">
 				<img src="../assets/logo.png" alt="placehold" />
 			</div>
-			test
+			<div>
+				<el-form class="login_form" label-width="0px" >
+					<el-form-item prop="name" >
+						<el-input></el-input>
+					</el-form-item>
+
+          <el-form-item prop="password" >
+						<el-input></el-input>
+					</el-form-item>
+
+          <el-form-item prop="button" class="btns">
+            <el-button type="primary">登录</el-button>
+            <el-button type="info">重置</el-button>
+          </el-form-item>
+				</el-form>
+			</div>
 		</div>
 	</div>
 </template>
@@ -32,17 +47,31 @@ export default {};
 	height: 130px;
 	width: 130px;
 	border-radius: 50%;
-	border: 1px solid #eee;
+	border: 2px solid #eee;
 	padding: 10px;
 	position: absolute;
 	left: 50%;
 	top: 0%;
 	background-color: #fff;
+	box-align: 0 0 10px #ddd;
 	transform: translate(-50%, -50%);
 	img {
 		width: 100%;
 		height: 100%;
 		border-radius: 50%;
+		background-color: #eee;
 	}
 }
+.login_form{
+  position: absolute;
+  bottom:0px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  .btns{
+  display: flex;
+  justify-content: flex-end;
+}
+}
+
 </style>
