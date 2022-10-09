@@ -5,19 +5,20 @@
 				<img src="../assets/logo.png" alt="placehold" />
 			</div>
 			<div>
-				<el-form class="login_form" label-width="0px" >
-					<el-form-item prop="name" >
-						<el-input></el-input>
+				<el-form class="login_form" label-width="0px">
+					<el-form-item prop="name">
+						<el-input prefix-icon="iconfont icon-user"></el-input>
 					</el-form-item>
 
-          <el-form-item prop="password" >
-						<el-input></el-input>
+					<el-form-item prop="password">
+						<el-input
+							prefix-icon="iconfont icon-password"></el-input>
 					</el-form-item>
 
-          <el-form-item prop="button" class="btns">
-            <el-button type="primary">登录</el-button>
-            <el-button type="info">重置</el-button>
-          </el-form-item>
+					<el-form-item prop="button" class="btns">
+						<el-button type="primary">登录</el-button>
+						<el-button type="info">重置</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 		</div>
@@ -62,16 +63,15 @@ export default {};
 		background-color: #eee;
 	}
 }
-.login_form{
-  position: absolute;
-  bottom:0px;
-  width: 100%;
-  padding: 0 20px;
-  box-sizing: border-box;
-  .btns{
-  display: flex;
-  justify-content: flex-end;
+.login_form {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	padding: 0 20px;
+	box-sizing: border-box;
+	.btns {
+		display: flex;
+		justify-content: flex-end;
+	}
 }
-}
-
 </style>
