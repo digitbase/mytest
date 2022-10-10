@@ -66,7 +66,7 @@ export default {
 				const {data:res} = await this.$axios.get("/timezones/57", this.loginForm);
         console.log(res)
         window.sessionStorage.setItem("timezones", res.id);
-        this.$router.push("/home")
+        this.$router.push("/index")
 			});
 		},
 	},
