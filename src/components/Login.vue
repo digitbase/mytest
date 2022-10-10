@@ -6,16 +6,16 @@
 			</div>
 			<div>
 				<el-form
-          ref="loginFormRef"
+					ref="loginForm"
 					class="login_form"
 					label-width="0px"
 					:model="loginForm"
 					:rules="formRules"
 				>
-					<el-form-item prop="username">
+					<el-form-item prop="name">
 						<el-input
 							prefix-icon="iconfont icon-user"
-							v-model="loginForm.username"
+							v-model="loginForm.name"
 						></el-input>
 					</el-form-item>
 
@@ -28,7 +28,7 @@
 					</el-form-item>
 
 					<el-form-item prop="button" class="btns">
-						<el-button type="primary">登录</el-button>
+						<el-button type="primary" @click="loginClick">登录</el-button>
 						<el-button type="info" @click="resetLoginForm">重置</el-button>
 					</el-form-item>
 				</el-form>
@@ -42,26 +42,34 @@ export default {
 	data() {
 		return {
 			loginForm: {
-				username: "",
-				password: "",
+				name: "ad",
+				password: "123",
 			},
 			formRules: {
-				username: [
+				name: [
 					{ required: true, message: "请输入活动名称", trigger: "blur" },
-					{ min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+					{ min: 2, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
 				],
 				password: [
 					{ required: true, message: "请选择活动区域", trigger: "change" },
-
 				],
 			},
 		};
 	},
-  methods: {
-    resetLoginForm (){
-      this.$refs.loginFormRef.resetFields()
-    }
-  },
+	methods: {
+		resetLoginForm() {
+			this.$refs.loginForm.resetFields();
+		},
+		loginClick() {
+			this.$refs.loginForm.validate(async (valid) => {
+				if (!valid) return;
+				const {data:res} = await this.$axios.get("/timezones/57", this.loginForm);
+        console.log(res)
+        window.sessionStorage.setItem("timezones", res.id);
+        this.$router.push("/home")
+			});
+		},
+	},
 };
 </script>
 
