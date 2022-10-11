@@ -19,7 +19,7 @@ Vue.prototype.$appName = 'My App'
 Vue.prototype.$message = Message;
 
 import axios from 'axios'
-axios.defaults.baseURL = "/api"
+// axios.defaults.baseURL = "/api"
 axios.interceptors.request.use(
   (config) => {
     config.headers.common['User-UUID'] = 'dcdb67d1-6116-4987-916f-6fc6cf2bc0e4'

@@ -1,8 +1,8 @@
 <template>
   <el-container>
     <el-header>
-      <div>
-        <img src="../assets/logo.png" alt="logo" />
+      <div height="60px" >
+        <img src="../assets/logo.png" alt="logo"  />
         <div><span>你好</span></div>
       </div>
       <div>
@@ -111,9 +111,7 @@ export default {
       console.log(this.$refs.myBox.width)
     },
     async getMenList() {
-      // const { data: res } = await this.$axios.get('/menus/web')
-      // console.log(res['/space'])
-      //this.menulist = res
+
     },
   },
 }
@@ -125,17 +123,17 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
   div {
     display: flex;
     align-items: center;
+    overflow: hidden;
     span {
       margin-left: 10px;
       color: white;
     }
   }
-  img {
-    overflow: hidden;
-  }
+
 }
 .el-aside {
   background-color: #333744;

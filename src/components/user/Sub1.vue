@@ -58,7 +58,7 @@
                 effect="dark"
                 content="编辑文字"
                 placement="top"
-                :enterable = false
+                :enterable="false"
               >
                 <el-button
                   type="warning"
@@ -69,6 +69,20 @@
             </template>
           </el-table-column>
         </el-table>
+      </el-row>
+      <el-row class="page_row">
+        <div class="block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="queryInfo.pageNum"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="queryInfo.pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="queryInfo.total"
+          >
+          </el-pagination>
+        </div>
       </el-row>
     </el-card>
   </div>
@@ -82,15 +96,27 @@ export default {
   data() {
     return {
       userList: [],
+      queryInfo:{
+        pageNum:1,
+        pageSize:20,
+        total:0,
+      }
     }
   },
   methods: {
+    // pageSize改变
+    handleSizeChange(pageSize){
+
+    },
+    // 页码改变事件
+    handleCurrentChange(pageNum){
+
+    },
     async getInfo() {
       await this.$axios
-        .get('/spaces', { params: { key: 'value' } })
+        .get('/api/spaces', { params: { key: 'value' } })
         .then((res) => {
           if (res.status == 200) {
-
             this.userList = res.data
             this.$message.success('sub1')
           } else {
@@ -111,5 +137,9 @@ export default {
 }
 .el-table {
   margin-top: 20px;
+}
+.page_row {
+  margin-top: 20px;
+  text-align: right;
 }
 </style>
