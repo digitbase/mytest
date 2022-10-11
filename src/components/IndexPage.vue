@@ -89,18 +89,15 @@ export default {
     }
   },
   created() {
-    this.getMenList()
+    //this.getMenList()
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     btnClick(event) {
       console.log(event.target) // 当前元素点击的子节点
       console.log(event.currentTarget) // 当前Vue元素
-
       var pro = event.currentTarget // 当前元素
-
       pro.lastElementChild.style.color = '#DE3E3E' // 修改最后一个子节点，改变图标和文字颜色
-
       console.log(pro.getAttribute('name')) // 获取html元素属性值
     },
     saveNavState(obj, e) {
@@ -114,8 +111,8 @@ export default {
       console.log(this.$refs.myBox.width)
     },
     async getMenList() {
-      const { data: res } = await this.$axios.get('/menus/web')
-      console.log(res['/space'])
+      // const { data: res } = await this.$axios.get('/menus/web')
+      // console.log(res['/space'])
       //this.menulist = res
     },
   },
@@ -135,6 +132,9 @@ export default {
       margin-left: 10px;
       color: white;
     }
+  }
+  img {
+    overflow: hidden;
   }
 }
 .el-aside {
