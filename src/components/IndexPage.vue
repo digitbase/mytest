@@ -11,7 +11,8 @@
     </el-header>
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside :width="this.collapse?64:200" ref="myBox">
+        <div class="toggle-button" @click="toggleClick">|||</div>
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
@@ -20,24 +21,30 @@
           background-color="#333744"
           text-color="#fff"
           active-text-color="#409Bff"
+          :unique-opened = true
+          :collapse-transition = false
+          :collapse= this.collapse
+          
         >
           <!-- 一级菜单 -->
-          <el-submenu :index="item.id" v-for="item in menulist" :key="item.id"  >
+          <el-submenu :index="item.id" v-for="item in menulist" :key="item.id">
             <!-- 一级菜单横版 -->
             <template slot="title">
               <i class="iconfont" :class="item.icon"></i>
-              <span>{{item.name}}</span>
+              <span>{{ item.name }}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item :index="subItem.id" v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item
+              :index="subItem.id"
+              v-for="subItem in item.children"
+              :key="subItem.id"
+            >
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>{{subItem.name}}</span>
+                <span>{{ subItem.name }}</span>
               </template>
             </el-menu-item>
           </el-submenu>
-
-
         </el-menu>
       </el-aside>
       <el-main>
@@ -54,31 +61,49 @@
 
 <script>
 export default {
-  data (){
+  data() {
     return {
-      menulist:[
-        {"id":1, "name": "Menulist1","icon":"icon-user",
-        "children": [ 
-          {"id":1, "name": "sub1",},
-          {"id":2, "name": "sub2",},
-          {"id":3, "name": "sub3",}
-        ]
-      },
-        {"id":2, "name": "Menulist2","icon":"icon-add",},
-        {"id":3, "name": "Menulist3","icon":"icon-cart-full",},
-      ]
+      collapse : false,
+      menulist: [
+        {
+          id: 1,
+          name: 'Menulist1',
+          icon: 'icon-user',
+          children: [
+            { id: 1, name: 'sub1' },
+            { id: 2, name: 'sub2' },
+            { id: 3, name: 'sub3' },
+          ],
+        },
+        {
+          id: 2,
+          name: 'Menulist2',
+          icon: 'icon-add',
+          children: [
+            { id: 1, name: 'sub1' },
+            { id: 2, name: 'sub2' },
+            { id: 3, name: 'sub3' },
+          ],
+        },
+        { id: 3, name: 'Menulist3', icon: 'icon-cart-full' },
+      ],
     }
   },
-  created (){
+  created() {
     this.getMenList()
   },
   methods: {
-    async getMenList(){
-      const {data:res} = await this.$axios.get("/menus/web")
+
+    toggleClick(){
+      this.collapse = !this.collapse;
+
+      console.log(this.$refs.myBox.width)
+    },
+    async getMenList() {
+      const { data: res } = await this.$axios.get('/menus/web')
       console.log(res['/space'])
       //this.menulist = res
-
-    }
+    },
   },
 }
 </script>
@@ -100,6 +125,10 @@ export default {
 }
 .el-aside {
   background-color: #333744;
+  .el-menu{
+    box-sizing: border-box;
+    border-right: none;
+  }
 }
 .el-main {
   background-color: #333;
@@ -108,7 +137,17 @@ export default {
   height: 100%;
 }
 
-.iconfont{
+.iconfont {
   margin-right: 10px;
+}
+.toggle-button{
+  background-color: #4A5064;
+  color: #fff;
+  font-size: 10px;
+  line-height: 24px;
+  align-items:center;
+  letter-spacing: 0.2em;
+  text-align: center;
+  cursor: pointer;
 }
 </style>
