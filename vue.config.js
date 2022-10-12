@@ -13,12 +13,13 @@ module.exports = defineConfig({
           '^/api': '',
         },
       },
-      '/api': {
-        target: 'http://127.0.0.1:8000',
+      '/service': {
+        target: 'http://127.0.0.1:3004/',
         changeOrigin: true,
-        pathRewrite: {
-          '^/api': '',
-        },
+        logLevel: 'debug'
+        // pathRewrite: {
+        //   '^/service/VehiclePass': '',
+        // },
       },
     },
   },

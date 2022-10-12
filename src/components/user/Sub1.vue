@@ -24,17 +24,18 @@
       </el-row>
 
       <el-row>
-        <el-table :data="userList" style="width: 100%" border>
+        <el-table :data="carList" style="width: 100%" border>
           <!-- 索引列 -->
           <el-table-column type="index" label="ID"> </el-table-column>
           <el-table-column prop="id" label="日期" width="120px">
           </el-table-column>
-          <el-table-column prop="name" label="姓名"> </el-table-column>
-          <el-table-column prop="member_num" label="状态"> </el-table-column>
+          <el-table-column prop="masterName" label="姓名"> </el-table-column>
+          <el-table-column prop="groupName" label="状态"> </el-table-column>
           <el-table-column label="地址">
             <template slot-scope="scope">
               <el-switch
-                v-model="scope.row.is_output_counted"
+                v-model="scope.row.levelNum"
+                @change="handleLevelNumChange(scope.row)"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
               >
@@ -76,7 +77,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="queryInfo.pageNum"
-            :page-sizes="[10, 20, 30, 40]"
+            :page-sizes="[2, 4, 5]"
             :page-size="queryInfo.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="queryInfo.total"
@@ -91,26 +92,67 @@
 <script>
 export default {
   created() {
-    this.getInfo()
+    //this.getInfo()
+    this.getTest()
   },
   data() {
     return {
       userList: [],
-      queryInfo:{
-        pageNum:1,
-        pageSize:20,
-        total:0,
-      }
+      carList: [],
+      queryInfo: {
+        pageNum: 1,
+        pageSize: 2,
+        total: 0,
+        start: 0,
+      },
     }
   },
   methods: {
-    // pageSize改变
-    handleSizeChange(pageSize){
+    //修改状态
+    async handleLevelNumChange (info) {
+      console.log(info)
+      console.log(info.id)
+      console.log(info.levelNum)
+
+
+      let postData = {
+        "id" : info.id,
+        "levelNum" : 3
+      }
+
+      await this.$axios
+        .post('/service/Inspection/0.1.0/InspectionCheckGroup/update', postData, {
+          headers: {
+            'Content-Type': 'application/json',
+            Connection: 'keep-alive',
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          if (res.status == 201 || res.status == 200) {
+
+            this.$message.success('更新成功')
+          } else {
+            this.$message.error('更新error')
+          }
+        })
 
     },
-    // 页码改变事件
-    handleCurrentChange(pageNum){
 
+    // pageSize改变
+    handleSizeChange(pageSize) {
+      this.queryInfo.pageSize = pageSize
+      this.queryInfo.start = 0
+      this.getTest()
+    },
+    // 页码改变事件
+    handleCurrentChange(pageNum) {
+      this.queryInfo.start = this.queryInfo.pageSize * (pageNum -1)
+
+      console.log(this.queryInfo)
+
+
+      this.getTest()
     },
     async getInfo() {
       await this.$axios
@@ -121,6 +163,35 @@ export default {
             this.$message.success('sub1')
           } else {
             this.$message.error('sub1 error')
+          }
+        })
+    },
+    async getTest() {
+      let sss = {
+        start: this.queryInfo.start,
+        limit: this.queryInfo.pageSize,
+        condition: {},
+        orderby: [{ field: 'groupName', order: 'desc' }],
+      }
+
+      console.log(sss)
+      await this.$axios
+        .post('/service/Inspection/0.1.0/InspectionCheckGroup/query', sss, {
+          headers: {
+            'Content-Type': 'application/json',
+            Connection: 'keep-alive',
+          },
+        })
+        .then((res) => {
+          // console.log(res)
+          if (res.status == 201 || res.status == 200) {
+            this.carList = res.data.result[0].InspectionCheckGroup
+            this.queryInfo.total = res.data.result[0].count * 1
+
+            console.log(this.queryInfo)
+            this.$message.success('car sub1')
+          } else {
+            this.$message.error('car error')
           }
         })
     },
