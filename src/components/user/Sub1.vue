@@ -25,20 +25,33 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="dialogVisible=true">添加</el-button>
+          <el-button type="primary" @click="dialogVisible = true"
+            >添加</el-button
+          >
         </el-col>
 
         <!-- 添加用户对话框 -->
         <el-dialog
-          title="提示"
+          title="添加用户"
           :visible.sync="dialogVisible"
           width="30%"
           :before-close="handleClose"
         >
-          <span>这是一段信息</span>
+          <el-form
+            :model="addForm"
+            :rules="addRules"
+            ref="addFormRef"
+            label-width="70px"
+            
+          >
+            <el-form-item label="组名" prop="groupName">
+              <el-input v-model="addForm.groupName"></el-input>
+            </el-form-item>
+          </el-form>
+
           <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false"
+            <el-button @click="addFormClose">取 消</el-button>
+            <el-button type="primary" @click="addFormClick"
               >确 定</el-button
             >
           </span>
@@ -120,6 +133,13 @@ export default {
     this.getTest()
   },
   data() {
+
+    var checkGroupName = (rule, value, callback) =>{
+      console.log(rule)
+      console.log(value)
+      callback("xxx");
+    };
+
     return {
       userList: [],
       carList: [],
@@ -131,9 +151,35 @@ export default {
         start: 0,
         groupName: '2',
       },
+      addForm :{
+        groupName : "test"
+      },
+      addRules:{
+        groupName :[
+          { required: true, message: '请输入组名', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
+          {validator:checkGroupName, trigger: 'blur' },
+        ]
+      },
     }
   },
   methods: {
+  
+
+    //关闭添加对话框
+    addFormClose (){
+      this.dialogVisible = false;
+      this.addForm.groupName = ""
+    },
+    // 添加用户组
+    addFormClick () {
+      this.$refs.addFormRef.validate(async (valid) => {
+        if (!valid) return;
+        this.dialogVisible = false;
+
+      })
+    },
+
     //修改状态
     async handleLevelNumChange(info) {
       console.log(info)
