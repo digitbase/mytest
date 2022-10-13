@@ -124,6 +124,7 @@
                   type="warning"
                   icon="el-icon-setting"
                   size="mini"
+                  @click="delFormOpen(scope.row)"
                 ></el-button>
               </el-tooltip>
             </template>
@@ -150,7 +151,6 @@
 
 <script>
 export default {
-  
   created() {
     window.vuethis = this
     //this.getInfo()
@@ -180,7 +180,7 @@ export default {
       },
       editForm: {
         groupName: '',
-        id:"",
+        id: '',
       },
       addRules: {
         groupName: [
@@ -192,16 +192,63 @@ export default {
     }
   },
   methods: {
+    delFormOpen(info) {
+      // this.$alert('这是一段内容', '标题名称', {
+      //   confirmButtonText: '确定',
+      //   callback: action => {
+      //     this.$message({
+      //       type: 'info',
+      //       message: `action: ${ action }`
+      //     });
+      //   }
+      // });
+
+      this.$messagebox
+        .confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+        .then(async () => {
+          console.log(info.id)
+          let postData = {
+            id: this.editForm.id,
+          }
+          await this.$axios
+            .post(
+              '/service/Inspection/0.1.0/InspectionCheckGroup/delete',
+              { id: info.id },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  Connection: 'keep-alive',
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 201 || res.status == 200) {
+                if (res.data['resCode'] !== '0') {
+                  this.$message.error(res.data.resMsg)
+                } else {
+                  this.$message.success('删除成功')
+                  this.editdialogVisible = false
+                  this.getTest()
+                }
+              } else {
+                this.$message.error('删除error')
+              }
+            })
+        })
+    },
+
     editFormClose() {
       this.editdialogVisible = false
     },
 
     editFormOpen(info) {
-
       this.editdialogVisible = true
       this.editForm.id = info.id
       this.editForm.groupName = info.groupName
-      
     },
 
     editFormSubmit() {
@@ -209,9 +256,8 @@ export default {
         if (!valid) return
 
         let postData = {
-          id : this.editForm.id,
+          id: this.editForm.id,
           groupName: this.editForm.groupName,
-
         }
         await this.$axios
           .post(

@@ -4,7 +4,7 @@ import App from './App'
 import router from './router'
 
 import ElementUI from 'element-ui'
-import {Message} from "element-ui";
+import {Message, Alert, MessageBox} from "element-ui";
 
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/fonts/iconfont.css'
@@ -17,6 +17,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.$appName = 'My App'
 Vue.prototype.$message = Message;
+Vue.prototype.$alter = Alert;
+Vue.prototype.$messagebox = MessageBox;
 
 import axios from 'axios'
 // axios.defaults.baseURL = "/api"
