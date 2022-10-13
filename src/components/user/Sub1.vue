@@ -12,15 +12,37 @@
         <el-col :span="8">
           <el-input
             placeholder="请输入内容"
-            v-model="input3"
+            v-model="queryInfo.groupName"
             class="input-with-select"
+            clearable
+            @clear="getTest"
           >
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="getTest"
+            ></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加用户</el-button>
+          <el-button type="primary" @click="dialogVisible=true">添加</el-button>
         </el-col>
+
+        <!-- 添加用户对话框 -->
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible"
+          width="30%"
+          :before-close="handleClose"
+        >
+          <span>这是一段信息</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false"
+              >确 定</el-button
+            >
+          </span>
+        </el-dialog>
       </el-row>
 
       <el-row>
@@ -29,8 +51,10 @@
           <el-table-column type="index" label="ID"> </el-table-column>
           <el-table-column prop="id" label="日期" width="120px">
           </el-table-column>
-          <el-table-column prop="masterName" label="姓名"> </el-table-column>
-          <el-table-column prop="groupName" label="状态"> </el-table-column>
+          <el-table-column prop="masterName" label="masterName">
+          </el-table-column>
+          <el-table-column prop="groupName" label="groupName">
+          </el-table-column>
           <el-table-column label="地址">
             <template slot-scope="scope">
               <el-switch
@@ -99,44 +123,47 @@ export default {
     return {
       userList: [],
       carList: [],
+      dialogVisible: true,
       queryInfo: {
         pageNum: 1,
         pageSize: 2,
         total: 0,
         start: 0,
+        groupName: '2',
       },
     }
   },
   methods: {
     //修改状态
-    async handleLevelNumChange (info) {
+    async handleLevelNumChange(info) {
       console.log(info)
       console.log(info.id)
       console.log(info.levelNum)
 
-
       let postData = {
-        "id" : info.id,
-        "levelNum" : 3
+        id: info.id,
+        levelNum: 3,
       }
 
       await this.$axios
-        .post('/service/Inspection/0.1.0/InspectionCheckGroup/update', postData, {
-          headers: {
-            'Content-Type': 'application/json',
-            Connection: 'keep-alive',
-          },
-        })
+        .post(
+          '/service/Inspection/0.1.0/InspectionCheckGroup/update',
+          postData,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Connection: 'keep-alive',
+            },
+          }
+        )
         .then((res) => {
           console.log(res)
           if (res.status == 201 || res.status == 200) {
-
             this.$message.success('更新成功')
           } else {
             this.$message.error('更新error')
           }
         })
-
     },
 
     // pageSize改变
@@ -147,10 +174,9 @@ export default {
     },
     // 页码改变事件
     handleCurrentChange(pageNum) {
-      this.queryInfo.start = this.queryInfo.pageSize * (pageNum -1)
+      this.queryInfo.start = this.queryInfo.pageSize * (pageNum - 1)
 
       console.log(this.queryInfo)
-
 
       this.getTest()
     },
@@ -167,10 +193,17 @@ export default {
         })
     },
     async getTest() {
+      let condition = {}
+      if (this.queryInfo.groupName) {
+        condition.groupName = {
+          value: this.queryInfo.groupName,
+          operator: 'like',
+        }
+      }
       let sss = {
         start: this.queryInfo.start,
         limit: this.queryInfo.pageSize,
-        condition: {},
+        condition: condition,
         orderby: [{ field: 'groupName', order: 'desc' }],
       }
 
