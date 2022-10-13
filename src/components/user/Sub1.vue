@@ -35,14 +35,13 @@
           title="添加用户"
           :visible.sync="dialogVisible"
           width="30%"
-          :before-close="handleClose"
+          @close="addFormClose"
         >
           <el-form
             :model="addForm"
             :rules="addRules"
             ref="addFormRef"
             label-width="70px"
-            
           >
             <el-form-item label="组名" prop="groupName">
               <el-input v-model="addForm.groupName"></el-input>
@@ -51,9 +50,31 @@
 
           <span slot="footer" class="dialog-footer">
             <el-button @click="addFormClose">取 消</el-button>
-            <el-button type="primary" @click="addFormClick"
-              >确 定</el-button
-            >
+            <el-button type="primary" @click="addFormClick">确 定</el-button>
+          </span>
+        </el-dialog>
+
+        <!-- 编辑用户对话框 -->
+        <el-dialog
+          title="编辑用户"
+          :visible.sync="editdialogVisible"
+          width="30%"
+          @close="editFormClose"
+        >
+          <el-form
+            :model="editForm"
+            :rules="addRules"
+            ref="editFormRef"
+            label-width="70px"
+          >
+            <el-form-item label="组名" prop="groupName">
+              <el-input v-model="editForm.groupName"></el-input>
+            </el-form-item>
+          </el-form>
+
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="editFormClose">取 消</el-button>
+            <el-button type="primary" @click="editFormSubmit">确 定</el-button>
           </span>
         </el-dialog>
       </el-row>
@@ -85,6 +106,7 @@
                 type="primary"
                 icon="el-icon-edit"
                 size="mini"
+                @click="editFormOpen(scope.row)"
               ></el-button>
               <el-button
                 type="danger"
@@ -128,55 +150,149 @@
 
 <script>
 export default {
+  
   created() {
+    window.vuethis = this
     //this.getInfo()
     this.getTest()
   },
   data() {
-
-    var checkGroupName = (rule, value, callback) =>{
+    var checkGroupName = (rule, value, callback) => {
       console.log(rule)
       console.log(value)
-      callback("xxx");
-    };
+      callback()
+    }
 
     return {
       userList: [],
       carList: [],
-      dialogVisible: true,
+      dialogVisible: false,
+      editdialogVisible: false,
       queryInfo: {
         pageNum: 1,
         pageSize: 2,
         total: 0,
         start: 0,
-        groupName: '2',
+        groupName: '',
       },
-      addForm :{
-        groupName : "test"
+      addForm: {
+        groupName: '',
       },
-      addRules:{
-        groupName :[
+      editForm: {
+        groupName: '',
+        id:"",
+      },
+      addRules: {
+        groupName: [
           { required: true, message: '请输入组名', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
-          {validator:checkGroupName, trigger: 'blur' },
-        ]
+          { validator: checkGroupName, trigger: 'blur' },
+        ],
       },
     }
   },
   methods: {
-  
+    editFormClose() {
+      this.editdialogVisible = false
+    },
+
+    editFormOpen(info) {
+
+      this.editdialogVisible = true
+      this.editForm.id = info.id
+      this.editForm.groupName = info.groupName
+      
+    },
+
+    editFormSubmit() {
+      this.$refs.editFormRef.validate(async (valid) => {
+        if (!valid) return
+
+        let postData = {
+          id : this.editForm.id,
+          groupName: this.editForm.groupName,
+
+        }
+        await this.$axios
+          .post(
+            '/service/Inspection/0.1.0/InspectionCheckGroup/update',
+            postData,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Connection: 'keep-alive',
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res)
+            if (res.status == 201 || res.status == 200) {
+              console.log(res)
+
+              if (res.data['resCode'] !== '0') {
+                this.$message.error(res.data.resMsg)
+              } else {
+                this.$message.success('编辑成功')
+                this.editdialogVisible = false
+                this.getTest()
+              }
+            } else {
+              this.$message.error('更新error')
+            }
+          })
+      })
+    },
 
     //关闭添加对话框
-    addFormClose (){
-      this.dialogVisible = false;
-      this.addForm.groupName = ""
+    addFormClose() {
+      console.log('close wind')
+      this.dialogVisible = false
+      this.addForm.groupName = ''
+      this.$refs.addFormRef.resetFields()
     },
     // 添加用户组
-    addFormClick () {
+    addFormClick() {
       this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return;
-        this.dialogVisible = false;
+        if (!valid) return
 
+        let postData = {
+          masterName: 'masterName',
+          parentId: '0',
+          levelNum: 0,
+          groupName: this.addForm.groupName,
+          status: 'active',
+          levelId: '0',
+          typeId: '0',
+          groupFlg: 0,
+          customid: 'customid',
+        }
+        await this.$axios
+          .post(
+            '/service/Inspection/0.1.0/InspectionCheckGroup/create',
+            postData,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Connection: 'keep-alive',
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res)
+            if (res.status == 201 || res.status == 200) {
+              console.log(res)
+
+              if (res.data['resCode'] !== '0') {
+                this.$message.error(res.data.resMsg)
+              } else {
+                this.$message.success('添加成功')
+                this.dialogVisible = false
+                this.getTest()
+              }
+            } else {
+              this.$message.error('更新error')
+            }
+          })
       })
     },
 
@@ -206,6 +322,7 @@ export default {
           console.log(res)
           if (res.status == 201 || res.status == 200) {
             this.$message.success('更新成功')
+            this.getTest()
           } else {
             this.$message.error('更新error')
           }
@@ -239,6 +356,7 @@ export default {
         })
     },
     async getTest() {
+      console.log('search groupName')
       let condition = {}
       if (this.queryInfo.groupName) {
         condition.groupName = {
@@ -250,7 +368,7 @@ export default {
         start: this.queryInfo.start,
         limit: this.queryInfo.pageSize,
         condition: condition,
-        orderby: [{ field: 'groupName', order: 'desc' }],
+        orderby: [{ field: 'lastModifiedDate', order: 'desc' }],
       }
 
       console.log(sss)

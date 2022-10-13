@@ -35,7 +35,7 @@ window.$axios = Vue.prototype.$axios = axios
 
 console.log(router)
 
-new Vue({
+window.vm = new Vue({
   router,
   el: '#app',
   router,
