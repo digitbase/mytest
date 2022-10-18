@@ -112,6 +112,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 size="mini"
+                @click="delFormOpen(scope.row)"
               ></el-button>
               <el-tooltip
                 class="item"
@@ -124,7 +125,7 @@
                   type="warning"
                   icon="el-icon-setting"
                   size="mini"
-                  @click="delFormOpen(scope.row)"
+                 
                 ></el-button>
               </el-tooltip>
             </template>
