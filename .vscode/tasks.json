@@ -1,0 +1,17 @@
+{
+
+ "version": "2.0.0",
+ "shell": true,
+ //-p 指定目录；-w watch,检测文件改变自动编译
+ "presentation": {
+     "reveal":"always"
+ },
+ "problemMatcher": "$tsc",
+ "tasks": [{
+  "label": "Run debugger ts",
+  "type": "shell",
+  "args": ["-p", ".", "-w"],
+  "command": "tsc",
+  "group": "build", 
+ }]
+}
