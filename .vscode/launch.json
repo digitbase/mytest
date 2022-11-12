@@ -5,14 +5,14 @@
   "version": "0.2.0",
   "configurations": [    
     {
-      "name": "我的TS调试",
+      "name": "TS运行",
       "request": "launch",
       "type": "node-terminal",
-      "command": "npm run test",
+      "command": "node ./dist/index.js",
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "launch",
+      "name": "JS调试",
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/dist/index.js",
