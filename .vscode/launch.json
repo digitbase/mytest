@@ -8,7 +8,7 @@
       "name": "我的TS调试",
       "request": "launch",
       "type": "node-terminal",
-      "command": "npm start",
+      "command": "npm run test",
       "cwd": "${workspaceFolder}"
     },
     {
