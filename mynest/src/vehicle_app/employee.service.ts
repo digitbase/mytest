@@ -12,11 +12,11 @@ export class EmployeeService {
     root(): string {
         return 'Hello World!';
     }
-    async create(): Promise<string> {
+    async create(name?:string): Promise<string> {
         let employee = new Employee();
         let company = new Company();
-        company.name = 'asc';
-        employee.name = 'novak';
+        company.name = 'asc2';
+        employee.name = name?name:"novke";
         employee.age = 20;
         employee.address = 'shanghai';
         employee.company = company;

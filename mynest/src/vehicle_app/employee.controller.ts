@@ -20,12 +20,17 @@ export class EmployeeController {
     console.log('222222222222222 22222222222222222  2222222222222222222222')
     console.log(params.name);
     console.log('222222222222222 22222222222222222  2222222222222222222222')
-    return this.employeeService.findOne('novak');
+    return this.employeeService.findOne(params.name);
   }
 
   @Get('create')
   async create(): Promise<string> {
     console.log('1323');
     return this.employeeService.create();
+  }
+
+  @Get('create/:name')
+  async create2(@Param() params): Promise<string> {
+    return this.employeeService.create(params.name);
   }
 }
