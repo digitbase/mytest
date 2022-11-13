@@ -5,13 +5,13 @@ import { CatService } from './cat.service';
 export class CatController {
   constructor(private readonly CatService: CatService) {}
 
-  @Get()
+  @Get("/cat")
   getHello(): string {
     return this.CatService.getHello();
   }
 
 
-  @Get('/:id')
+  @Get('/cat/:id')
   getHellow2222() : string{
     return 'bbbb'
   }

@@ -1,25 +1,22 @@
-import { Controller, Body, Post,Get, Query } from '@nestjs/common';
+import { Controller, Body, Post, Get, Query } from '@nestjs/common';
 
-
+import { PhotoService } from './photo.service';
+import { Photo } from './photo.entity';
 
 export class ParamsInput {
     id:string; 
     isPublic: boolean;
 }
 
-@Controller("/myTest")
-export class MyTestController {
+@Controller("/photo")
+export class PhotoController {
+  // constructor(private readonly photoService: PhotoService) {}
 
-  constructor() {
-    console.log('222222222222222  MyTestController  2222222222222222222222')
-
-}
-
-
-    @Post()
+  @Get()
     async queryVehiclePermissionInfo(@Body() input): Promise<any> {
-        console.log(input)
-        return {1:1}
+      console.log(input)
+      // let res = await this.photoService.findAll();
+    return {}
     }
     @Get("/say")
     async getInfo(@Query() input): Promise<any> {
