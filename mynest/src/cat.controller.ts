@@ -27,7 +27,7 @@ export class CatController {
   }
 
 
-  @Get('/:id')
+  @Get('/cat/:id')
   getHellow2222() : string{
     return 'bbbb'
   }
