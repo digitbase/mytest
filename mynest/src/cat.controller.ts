@@ -1,16 +1,42 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, OnModuleInit } from '@nestjs/common';
 import { CatService } from './cat.service';
 import { EnterPersonModule } from './socket01_app/enterPerson.module';
 import { EnterPersonModule2 } from './socket01_app/enterPerson2.module';
-
+import {
+  Client,
+  ClientKafka,
+  Ctx,
+  KafkaContext,
+  MessagePattern,
+  Payload,
+  Transport,
+} from '@nestjs/microservices';
+import { pr } from './comm/fun.comm';
+import { ConsumerService } from './kafka/consumer.service';
 @Controller()
-export class CatController {
+export class CatController implements OnModuleInit{
+
+  async onModuleInit() {
+  }
 
   constructor(private readonly CatService: CatService,
     private gateWay01: EnterPersonModule,
-    private gateWay02: EnterPersonModule2,
-  
+    private gateWay02: EnterPersonModule2,  
   ) { }
+
+  @MessagePattern('Dahu_002') // Our topic name
+  getHello2(@Payload() message) {
+    console.log(message.value);
+    pr(message,222)
+    return 'Hello World';
+  }
+
+  @MessagePattern('Dahua_002') // Our topic name
+  getHello12(@Payload() message) {
+    console.log(message.value);
+    pr(message,222)
+    return 'Hello World';
+  }
 
   @Get("/cat")
   async getHello() {
@@ -31,4 +57,12 @@ export class CatController {
   getHellow2222() : string{
     return 'bbbb'
   }
+
+  // @MessagePattern('Dahu_002')
+  // async DEVICE_ALARM(@Payload() message: any, @Ctx() context: KafkaContext) {
+  //   let res = message.value.eventData;
+  //   pr(res['data']['extension']);
+
+  //   return res;
+  // }
 }

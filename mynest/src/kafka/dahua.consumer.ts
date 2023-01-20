@@ -30,7 +30,7 @@ export class DahuaConsumer implements OnModuleInit {
       },
     };
 
-    await this.consumerService.consumer({ topic: 'Dahua_002' }, config);
-    pr('......connect consumer  success.....', 34455);
+    // await this.consumerService.consumer({ topic: 'Dahua_002' }, config);
+    // pr('......connect consumer  success.....', 34455);
   }
 }

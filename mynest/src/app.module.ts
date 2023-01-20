@@ -12,7 +12,8 @@ import configuration from './config/database.config';
 import {EmployeeModule} from './vehicle_app/employee.module'
 import { KafkaModule } from './kafka/kafka.module';
 import { DahuaConsumer } from './kafka/dahua.consumer';
-
+import { ClientKafka, ClientProvider, ClientsModule, Transport } from '@nestjs/microservices';
+import { ConsumerService } from './kafka/consumer.service';
 
 export function pr(input:any, type2?:number):void{
 	console.log(typeof input, "==>",input);let _type = type2?type2:0;let str = " "
@@ -55,7 +56,7 @@ const env = process.env.ENV_NODE || '';
     CatService,
     EnterPersonModule,
     EnterPersonModule2,
-    DahuaConsumer,
+    
   ],
 })
 export class AppModule implements OnModuleInit {
