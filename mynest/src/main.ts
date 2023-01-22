@@ -9,7 +9,6 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'hc-command-screen', // hero-server
         brokers: ['10.200.52.235:9092'],
       },
     }

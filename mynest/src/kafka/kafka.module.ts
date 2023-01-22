@@ -10,11 +10,11 @@ import { ClientKafka, ClientProvider, ClientsModule, Transport } from '@nestjs/m
             transport:Transport.KAFKA,
             options: {
               client: {
-                clientId: "hc-command-screen",
+                clientId: "hc-command-screen-test",
                 brokers: ['10.200.52.235:9092']
               },
               consumer:{
-                groupId: 'hc-command-screen-consumer'
+                groupId: 'hc-command-screen-consumer-test'
               }
             }
           }

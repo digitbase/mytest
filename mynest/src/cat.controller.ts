@@ -24,19 +24,23 @@ export class CatController implements OnModuleInit{
     private gateWay02: EnterPersonModule2,  
   ) { }
 
+  @MessagePattern('Dahua_002')
+  async DEVICE_ALARM(@Payload() message: any, @Ctx() context: KafkaContext) {
+    // let res = message.value.eventData;
+    pr(message);
+
+    return message;
+  }
+
+
+
   @MessagePattern('Dahu_002') // Our topic name
-  getHello2(@Payload() message) {
+  async getHello2(@Payload() message) {
     console.log(message.value);
     pr(message,222)
     return 'Hello World';
   }
 
-  @MessagePattern('Dahua_002') // Our topic name
-  getHello12(@Payload() message) {
-    console.log(message.value);
-    pr(message,222)
-    return 'Hello World';
-  }
 
   @Get("/cat")
   async getHello() {
@@ -58,11 +62,5 @@ export class CatController implements OnModuleInit{
     return 'bbbb'
   }
 
-  // @MessagePattern('Dahu_002')
-  // async DEVICE_ALARM(@Payload() message: any, @Ctx() context: KafkaContext) {
-  //   let res = message.value.eventData;
-  //   pr(res['data']['extension']);
 
-  //   return res;
-  // }
 }
