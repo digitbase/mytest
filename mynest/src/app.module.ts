@@ -15,6 +15,11 @@ import { DahuaConsumer } from './kafka/dahua.consumer';
 import { ClientKafka, ClientProvider, ClientsModule, Transport } from '@nestjs/microservices';
 import { ConsumerService } from './kafka/consumer.service';
 import MySqlDBConfigService from './config/mysql.db.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { UserModule } from './user/user.module';
+import { UserController } from './user/user.controller';
+import { UserService } from './user/user.service';
+import { UserTbl } from './typeorm/entities/User.entite';
 
 export function pr(input:any, type2?:number):void{
 	console.log(typeof input, "==>",input);let _type = type2?type2:0;let str = " "
@@ -27,16 +32,46 @@ console.info('---->', `.env.${env}`);
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
+    ClientsModule.register([
+      {
+        name: 'COMMUNICATION',
+        transport: Transport.TCP,
+      },
+      {
+        name: 'ANALYTICS',
+        transport: Transport.TCP,
+        options: { port: 3001 },
+      },
+    ]),
     ConfigModule.forRoot({
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useClass: MySqlDBConfigService,
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        name: "mysql01",
+        entities: [
+          UserTbl,
+          // 'dist/**/*.entity{.ts,.js}',
+          // 'dist/**/object/*{.ts,.js}',
+          // 'dist/**/model/*{.ts,.js}',
+        ],
+        host: configService.get('host'),
+        port: configService.get<number>('port'),
+        username: configService.get('username'),
+        password: configService.get('password'),
+        database: "test",
+        logging: configService.get('logging') === 'true',
+        synchronize: true,
+      }),
+      // useClass: MySqlDBConfigService,
     }),
     EmployeeModule,
     VehicleAppModule,
-    KafkaModule,
+    UserModule,
   ],
   controllers: [
     CatController,

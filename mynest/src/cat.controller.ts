@@ -13,13 +13,18 @@ import {
 } from '@nestjs/microservices';
 import { pr } from './comm/fun.comm';
 import { ConsumerService } from './kafka/consumer.service';
+import { AppService } from './app.service';
+import { Cron,CronExpression,SchedulerRegistry } from '@nestjs/schedule';
 @Controller()
 export class CatController implements OnModuleInit{
 
   async onModuleInit() {
+    pr("CatController init", 6655)
   }
 
-  constructor(private readonly CatService: CatService,
+  constructor(
+    private readonly CatService: CatService,
+    private readonly appService: AppService,
     private gateWay01: EnterPersonModule,
     private gateWay02: EnterPersonModule2,  
   ) { }
@@ -32,7 +37,10 @@ export class CatController implements OnModuleInit{
     return message;
   }
 
-
+  // @Cron(CronExpression.EVERY_10_SECONDS,{ name: 'test' })
+  // test() {
+  //   pr('CronExpression',1111)
+  // }
 
   @MessagePattern('Dahu_002') // Our topic name
   async getHello2(@Payload() message) {
@@ -44,19 +52,13 @@ export class CatController implements OnModuleInit{
 
   @Get("/cat")
   async getHello() {
-    let msg = {
-      topic: "test",
-      msg:"nihao",
-    }
-    let str = JSON.stringify(msg);
-    let res1 = await this.gateWay01.pushMsg(str);
-    let res2 = await this.gateWay02.pushMsg(str);
-
-    return this.CatService.getHello();
+    this.appService.test01();
+    pr("cat",222)
 
   }
 
 
+  
   @Get('/cat/:id')
   getHellow2222() : string{
     return 'bbbb'

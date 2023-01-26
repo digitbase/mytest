@@ -2,6 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { pr } from "src/app.module";
+import { UserTbl } from "src/typeorm/entities/User.entite";
 
 @Injectable()
 export default class MySqlDBConfigService implements TypeOrmOptionsFactory {
@@ -15,6 +16,7 @@ export default class MySqlDBConfigService implements TypeOrmOptionsFactory {
         type: 'mysql',
         name: "mysql01",
         entities: [
+          UserTbl,
           'dist/**/*.entity{.ts,.js}',
           'dist/**/object/*{.ts,.js}',
           'dist/**/model/*{.ts,.js}',
