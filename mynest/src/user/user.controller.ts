@@ -1,7 +1,9 @@
-import { Controller, Get, Post,Body } from '@nestjs/common';
+import { Controller, Get, Post,Put,Body, Delete, Param,ParseIntPipe } from '@nestjs/common';
 import { pr } from 'src/app.module';
-import { creatreUserDTO } from 'src/utils/types';
 import {UserService} from "src/user/user.service"
+import { UpdateUserDto, CreasteUserDto } from 'src/utils/user.dtos';
+export const MUSIC_DB_CONNECTION = 'test';
+export const SECRET_DB_CONNECTION = 'secret';
 @Controller('user')
 export class UserController {
 
@@ -9,14 +11,22 @@ export class UserController {
 
   @Get()
   getUserInfo(@Body() input: any) {
-    pr('test', 111)
-
-    
+    return this.userService.findUser();
   }
 
+  @Put(':id')
+  async updateUserById(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) { 
+    return await this.userService.updateUser(id, updateUserDto)
+  }
+
+
   @Post()
-  createUser(@Body() input: creatreUserDTO) {
+  createUser(@Body() input: CreasteUserDto) {
     this.userService.createUser(input);
   }
 
+
+  // @Delete()
+  // // @Param("id")
+  // // deleteUser()
 }

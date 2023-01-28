@@ -14,10 +14,10 @@ import { KafkaModule } from './kafka/kafka.module';
 import { DahuaConsumer } from './kafka/dahua.consumer';
 import { ClientKafka, ClientProvider, ClientsModule, Transport } from '@nestjs/microservices';
 import { ConsumerService } from './kafka/consumer.service';
-import MySqlDBConfigService from './config/mysql.db.service';
+
 import { ScheduleModule } from '@nestjs/schedule';
 import { UserModule } from './user/user.module';
-import { UserController } from './user/user.controller';
+import { MUSIC_DB_CONNECTION, SECRET_DB_CONNECTION, UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { UserTbl } from './typeorm/entities/User.entite';
 
@@ -52,35 +52,52 @@ console.info('---->', `.env.${env}`);
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        name: "mysql01",
+        entities: [UserTbl],
+        host: configService.get('host'),
+        port: configService.get<number>('port'),
+        username: configService.get('username'),
+        password: configService.get('password'),
+        database: "hc_fcg30",
+        logging: ["query"],
+        synchronize: true,
+      }),
+      // useClass: MySqlDBConfigService,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      name: 'test01',
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
         entities: [
           UserTbl,
-          // 'dist/**/*.entity{.ts,.js}',
-          // 'dist/**/object/*{.ts,.js}',
-          // 'dist/**/model/*{.ts,.js}',
         ],
         host: configService.get('host'),
         port: configService.get<number>('port'),
         username: configService.get('username'),
         password: configService.get('password'),
         database: "test",
-        logging: configService.get('logging') === 'true',
+        logging: ["query"],
+        timezone:"local",
         synchronize: true,
       }),
       // useClass: MySqlDBConfigService,
     }),
+    TypeOrmModule.forFeature( [UserTbl], 'test01' ),
     EmployeeModule,
     VehicleAppModule,
-    UserModule,
+    // UserModule,
   ],
   controllers: [
     CatController,
+    UserController,
   ],
   providers: [
     AppService,
     CatService,
     EnterPersonModule,
     EnterPersonModule2,
+    UserService,
   ],
 })
 export class AppModule implements OnModuleInit {
