@@ -1,37 +1,39 @@
-from datetime import datetime, timedelta
-from tuser import prm,prd,pres
-from collections import defaultdict
-from decimal import Decimal
+import paho.mqtt.client as mqtt
+import json
+import time
+import datetime
 
-child_space_names_array = ['管培中心', '许昌', '南阳', '平顶山', '漯河', '三门峡', '洛阳', '技培中心', '郑州', '濮阳']
+currtime=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+# MQTT 服务器信息
+# BROKER = "222.221.241.110"
+# PORT = 1883
 
-subtotals_array = [
-    [177.927, 0, 0, 0, 1, 0, 0, 0, 0, 5],
-    [1537299100, 0, 0, 0, 0, 3, 0, 0, 0, 4],
-    [1537299100, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    # Add more arrays if needed
-]
+BROKER = "112.126.72.58"
+PORT = 18885
 
+TOPIC = "111/222"
+USERNAME = "530000189992"
+PASSWORD = "6daf67283cdc750114a2"
 
-accumulated_values = defaultdict(Decimal)
+# 连接回调
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code " + str(rc))
 
-# 遍历 subtotals_array 并累加值
-for subtotal_array in subtotals_array:
-    for location, value in zip(child_space_names_array, subtotal_array):
-        accumulated_values[location] += Decimal(value)
+# 创建 MQTT 客户端
+client = mqtt.Client(protocol=mqtt.MQTTv311)
+client.username_pw_set(USERNAME, PASSWORD)
+client.on_connect = on_connect
 
-# 将字典转换为元组列表
-total_usage_list = list(accumulated_values.items())
+# 连接服务器
+client.connect(BROKER, PORT, 60)
 
-# 根据总用量排序列表
-sorted_total_usage = sorted(total_usage_list, key=lambda x: x[1], reverse=True)
-
-# 加入排名信息
-ranked_total_usage = [(i+1, location, total_usage) for i, (location, total_usage) in enumerate(sorted_total_usage)]
-
-
-prm(ranked_total_usage)
-# 输出排序后的结果
-for rank, location, total_usage in ranked_total_usage:
-    print(f"排名 {rank}: {location}: {total_usage}")
+# 模拟设备数据发送
+while True:
+    payload = {
+        "device_id": "sensor_001",
+        "temperature": currtime
+    }
+    client.publish(TOPIC, json.dumps(payload), qos=1)
+    print(f"Published: {payload}")
+    time.sleep(5)  # 每 15 秒发送一次
